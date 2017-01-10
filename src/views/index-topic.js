@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 class IndexTopic extends Component {
   render() {
@@ -11,7 +12,7 @@ class IndexTopic extends Component {
                 <div className="left">
                   <div className="logo"></div>
                   <h1 className="site-title">
-                    <a href="index.html" className="home-link">.Stat</a>
+                    <Link to="/" className="home-link">.Stat</Link>
                   </h1>
                   <div className="toggle-search-form">
                     <i className="icon-ddp-search"></i>
@@ -39,7 +40,7 @@ class IndexTopic extends Component {
 
           <div className="container breadcrumbs">
             <ul>
-              <li><a href="index.html">OECD .Stat</a></li>
+              <li><Link to="/">OECD .Stat</Link></li>
               <li className="bd-01" style={{display: 'none'}}>Indicators</li>
               <li className="bd-02">Health</li>
             </ul>
