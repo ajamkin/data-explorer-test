@@ -24,8 +24,8 @@ const App = ({ children }) => (
   </div>
 );
 
-const browserHistory = useRouterHistory(useBasename(createHistory))({
-  basename: ''
+const browserHistory = useRouterHistory(createHistory)({
+  basename: '/data-explorer-test/dist/'
 });
 
 
