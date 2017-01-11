@@ -8,6 +8,7 @@ import LandingPage from './views/landing';
 import NoMatch from './views/nomatch';
 import Header from './views/header';
 import Footer from './views/footer';
+import Delayed from './views/delayed';
 
 import './assets/css/bootstrap.css'
 // import 'bootstrap-rtl/dist/css/bootstrap-rtl.css'
@@ -21,6 +22,11 @@ const App = ({ children }) => (
     <Header/>
     {children}
     <Footer/>
+    <Delayed wait={1000}/>
+    <Delayed wait={3000}/>
+    <Delayed wait={5000}/>
+    <Delayed wait={7000}/>
+    <Delayed wait={10000}/>
   </div>
 );
 
