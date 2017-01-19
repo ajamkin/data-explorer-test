@@ -29,19 +29,19 @@ const App = ({ children }) => (
     <Header/>
     <div className="row">
       <div className="col-md-2">
-        <Delayed wait={1000}/>
+        <Delayed wait={1}/>
       </div>
       <div className="col-md-2">
-        <Delayed wait={3000}/>
+        <Delayed wait={3}/>
       </div>
       <div className="col-md-2">
-        <Delayed wait={5000}/>
+        <Delayed wait={5}/>
       </div>
       <div className="col-md-3">
-        <Delayed wait={7000}/>
+        <Delayed wait={7}/>
       </div>
       <div className="col-md-3">
-        <Delayed wait={10000}/>
+        <Delayed wait={10}/>
       </div>
     </div>
     {children}

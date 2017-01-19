@@ -9,24 +9,25 @@ class Delayed extends Component {
   }
 
   componentWillMount() {
-    setTimeout(() => {
-      this.setState({hidden: false});
-    }, this.props.wait);
+    fetch('https://httpbin.org/delay/' + this.props.wait)
+      .then(resp => {
+        this.setState({ hidden: false })
+      });
   }
 
   render() {
 
-    if(this.state.hidden) {
+    if (this.state.hidden) {
       return (
         <div className="alert alert-warning" role="alert">
-          <strong>Waiting for timeout...</strong>
+          <strong>Waiting for timeout {this.props.wait}sec...</strong>
         </div>
       );
     }
 
     return (
       <div className="alert alert-success" role="alert">
-        <strong>Rendered after delay: {this.props.wait}</strong>
+        <strong>Rendered after delay: {this.props.wait}sec</strong>
       </div>
     );
   }
