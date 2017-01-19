@@ -9,7 +9,7 @@ class Delayed extends Component {
   }
 
   componentWillMount() {
-    fetch('http://www.fakeresponse.com/api/?sleep=' + this.props.wait)
+    fetch('https://httpbin.org/delay/' + this.props.wait)
       .then(resp => {
         this.setState({ hidden: false })
       });
