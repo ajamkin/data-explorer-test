@@ -37,11 +37,14 @@ const App = ({ children }) => (
       <div className="col-md-2">
         <Delayed wait={5}/>
       </div>
-      <div className="col-md-3">
+      <div className="col-md-2">
         <Delayed wait={7}/>
       </div>
-      <div className="col-md-3">
+      <div className="col-md-2">
         <Delayed wait={10}/>
+      </div>
+      <div className="col-md-2">
+        <Delayed wait={15}/>
       </div>
     </div>
     {children}
