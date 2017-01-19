@@ -1,8 +1,38 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+import Loader from 'react-loader';
+import 'whatwg-fetch';
+import { isEmpty } from 'lodash';
 
 class LandingPage extends Component {
+  componentDidMount() {
+    this.props.fetchPosts();
+  }
+
   render() {
+
+    const icons = [
+      'icon-ddp-agriculture', 'icon-ddp-development', 'icon-ddp-economics', 'icon-ddp-education',
+      'icon-ddp-energy', 'icon-ddp-environment', 'icon-ddp-finance', 'icon-ddp-government',
+      'icon-ddp-health', 'icon-ddp-science', 'icon-ddp-jobs', 'icon-ddp-society'
+    ];
+
+    const { posts } = this.props;
+
+    if (isEmpty(posts)) {
+      return <Loader loaded={false}/>
+    }
+
+    const displayPosts = [
+      [...posts.slice(0, 4)],
+      [...posts.slice(4, 8)],
+      [...posts.slice(8, 12)]
+    ];
+
+    console.log(displayPosts);
+
     return (
       <div className="ddp-root">
         <header>
@@ -15,7 +45,7 @@ class LandingPage extends Component {
                     <Link to="/" className="home-link">.Stat</Link>
                   </h1>
                   <div className="toggle-search-form">
-                    <i className="icon-ddp-search"></i>
+                    <i className="icon-ddp-search"/>
                   </div>
                   <div className="language-switch language-switch-left">
                     <a href="">› </a><a href="">Français</a>
@@ -32,7 +62,7 @@ class LandingPage extends Component {
           <div className="container breadcrumbs">
             <ul>
               <li><Link to="/">OECD .Stat</Link></li>
-              <li className="bd-01" style={{display: 'none'}}>Indicators</li>
+              <li className="bd-01" style={{ display: 'none' }}>Indicators</li>
             </ul>
           </div>
         </header>
@@ -69,7 +99,7 @@ class LandingPage extends Component {
                     </div>
                     <div className="home-jumbotron-search-item">
                       <button type="submit" className="home-jumbotron-btn-search">
-                        <i className="icon-ddp-search"></i>
+                        <i className="icon-ddp-search"/>
                         <span className="accessible-hide">Search</span>
                       </button>
                     </div>
@@ -80,7 +110,7 @@ class LandingPage extends Component {
                     <li className="home-jumbotron-search-tips">
                       <div className="info-tooltip" tabIndex="0">
                         <p>
-                          <i className="icon-ddp-info"></i> Search tips
+                          <i className="icon-ddp-info"/> Search tips
                         </p>
                         <p className="info-tooltip-content">
                           Start with keyword using the search bar (e.g. GDP, FDI, Health, unemployment, income
@@ -96,78 +126,17 @@ class LandingPage extends Component {
             <h2 className="line-top">Filter by topic</h2>
             <div className="main-topics">
               <div className="row">
-                <div className="col-sm-4">
-                  <Link to="topic">
-                    <i className="icon-ddp-agriculture"></i>
-                    <span className="topic-name">Agriculture</span>
-                    <small>Agricultural output, Agricultural policy, Fisheries, Sustainable agriculture</small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-development"></i>
-                    <span className="topic-name">Development</span>
-                    <small>Development resource flows, Official development assistance (ODA)</small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-economics"></i>
-                    <span className="topic-name">Economy</span>
-                    <small>Corporate sector, Domestic product, Foreign direct investment (FDI), Household accounts,
-                      International trade, Leading indicators, National income, Prices, Productivity
-                    </small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-education"></i>
-                    <span className="topic-name">Education</span>
-                    <small>Education attainment, Education resources, International student assessment (PISA), Youth and
-                      the labour market
-                    </small>
-                  </Link>
-                </div>
-                <div className="col-sm-4">
-                  <Link to="topic">
-                    <i className="icon-ddp-energy"></i>
-                    <span className="topic-name">Energy</span>
-                    <small>Energy, Transport</small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-environment"></i>
-                    <span className="topic-name">Environment</span>
-                    <small>Air and climate, Forest, Waste, Water</small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-finance"></i>
-                    <span className="topic-name">Finance</span>
-                    <small>Conversion rates, Insurance, Interest rates, Monetary aggregates, Pensions</small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-government"></i>
-                    <span className="topic-name">Government</span>
-                    <small>General government, Tax</small>
-                  </Link>
-                </div>
-                <div className="col-sm-4">
-                  <Link to="topic">
-                    <i className="icon-ddp-health"></i>
-                    <span className="topic-name">Health</span>
-                    <small>Health care use, Health equipment, Health resources, Health risks, Health status</small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-science"></i>
-                    <span className="topic-name">Innovation and Technology</span>
-                    <small>Broadband access, Entrepreneurship, Industry, Information and communication technology (ICT),
-                      Research and development (R&amp;D)
-                    </small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-jobs"></i>
-                    <span className="topic-name">Jobs</span>
-                    <small>Earnings and wages, Employment, Unemployment</small>
-                  </Link>
-                  <Link to="topic">
-                    <i className="icon-ddp-society"></i>
-                    <span className="topic-name">Society</span>
-                    <small>Demography, Inequality, Migration, Population by region, Social protection</small>
-                  </Link>
-                </div>
+                {displayPosts.map((postGroup, grIdx) => (
+                  <div className="col-sm-4" key={`group_${grIdx}`}>
+                    {postGroup.map((item, idx) => (
+                      <Link to="topic" key={item.id}>
+                        <i className={icons[idx]}/>
+                        <span className="topic-name">{item.title.substring(0, 10)}</span>
+                        <small>{item.title}</small>
+                      </Link>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
             <br/>
@@ -178,4 +147,6 @@ class LandingPage extends Component {
   }
 }
 
-export default LandingPage;
+export default connect(state => ({
+  posts: state.posts
+}), actions)(LandingPage);

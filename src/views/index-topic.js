@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+import Loader from 'react-loader';
+import { isEmpty } from 'lodash';
 
 class IndexTopic extends Component {
+  componentDidMount() {
+    this.props.fetchComments();
+  }
+
   render() {
+    const { comments } = this.props;
+
+    if (isEmpty(comments)) {
+      return <Loader loaded={false}/>
+    }
+
     return (
       <div className="ddp-root">
         <header>
@@ -25,7 +39,8 @@ class IndexTopic extends Component {
                   <div className="language-switch language-switch-right">
                     <a href="">› </a><a href="">Français</a>
                   </div>
-                  <form action="index-results.html" className="search-form header-search-form" style={{display: 'block'}}>
+                  <form action="index-results.html" className="search-form header-search-form"
+                        style={{ display: 'block' }}>
                     <input type="search" name="q" placeholder="Search for OECD data"
                            className="search-field livesearch"/>
                     <button type="submit" className="btn-search">
@@ -41,7 +56,7 @@ class IndexTopic extends Component {
           <div className="container breadcrumbs">
             <ul>
               <li><Link to="/">OECD .Stat</Link></li>
-              <li className="bd-01" style={{display: 'none'}}>Indicators</li>
+              <li className="bd-01" style={{ display: 'none' }}>Indicators</li>
               <li className="bd-02">Health</li>
             </ul>
           </div>
@@ -136,16 +151,16 @@ class IndexTopic extends Component {
                   <li className="exa-category">
                     <a href="" className="exa-add-category"><i className="icon-ddp-publication"></i> Publications </a>
                   </li>
-                  <li className="exa-category subitem" style={{display: 'none'}}>
+                  <li className="exa-category subitem" style={{ display: 'none' }}>
                     <a href="" className="exa-add-category"><i className="icon-ddp-undefined"></i> Issues </a>
                   </li>
-                  <li className="exa-category subitem" style={{display: 'none'}}>
+                  <li className="exa-category subitem" style={{ display: 'none' }}>
                     <a href="" className="exa-add-category"><i className="icon-ddp-undefined"></i> Books </a>
                   </li>
-                  <li className="exa-category" style={{display: 'none'}}>
+                  <li className="exa-category" style={{ display: 'none' }}>
                     <a href="" className="exa-add-category"><i className="icon-ddp-countries"></i> Countries </a>
                   </li>
-                  <li className="exa-category" style={{display: 'none'}}>
+                  <li className="exa-category" style={{ display: 'none' }}>
                     <a href="" className="exa-add-category"><i className="icon-ddp-science"></i> Topics </a>
                   </li>
                 </ul>
@@ -431,13 +446,14 @@ class IndexTopic extends Component {
                   className="glyphicon glyphicon-chevron-down pull-right"></i></a></h2>
                 <ul className="list-filters collapse segmented-control frequencies" id="collapseExample3">
                   <li className="current">
-                    <a href="#" data-value="A" style={{fontSize:'14px !important'}}>yearly</a>
+                    <a href="#" data-value="A" style={{ fontSize: '14px !important' }}>yearly</a>
                   </li>
                   <li>
-                    <a href="#" data-value="Q" className="disabled" style={{fontSize:'14px !important'}}>quarterly</a>
+                    <a href="#" data-value="Q" className="disabled"
+                       style={{ fontSize: '14px !important' }}>quarterly</a>
                   </li>
                   <li>
-                    <a href="#" data-value="M" className="disabled" style={{fontSize:'14px !important'}}>monthly</a>
+                    <a href="#" data-value="M" className="disabled" style={{ fontSize: '14px !important' }}>monthly</a>
                   </li>
                 </ul>
                 <h2 className="line-top">Filter by Time Period <a data-toggle="collapse" href="#collapseExample4"
@@ -446,12 +462,13 @@ class IndexTopic extends Component {
                 <div className="collapse" id="collapseExample4">
                   <div className="time-slider">
                     <div className="time-slider-inner noUi-target noUi-ltr noUi-horizontal noUi-background"
-                         style={{display: 'block'}}>
+                         style={{ display: 'block' }}>
                       <div className="noUi-base">
-                        <div className="noUi-origin noUi-connect noUi-dragable noUi-stacking" style={{left:'98.1481%'}}>
+                        <div className="noUi-origin noUi-connect noUi-dragable noUi-stacking"
+                             style={{ left: '98.1481%' }}>
                           <div className="noUi-handle noUi-handle-lower"></div>
                         </div>
-                        <div className="noUi-origin noUi-background" style={{left:'98.1481%'}}>
+                        <div className="noUi-origin noUi-background" style={{ left: '98.1481%' }}>
                           <div className="noUi-handle noUi-handle-upper"></div>
                         </div>
                       </div>
@@ -488,113 +505,34 @@ class IndexTopic extends Component {
                   dataset is proposed, taking the search terms into account.
                 </p>
                 <table className="table-items">
-                  <tbody id="" style={{display: 'table-row-group', opacity: '1'}}>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Health Status: EN - Health Status Query1</span></a>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Health Status</a></span>
-                      <span className="item-description pull-right">Last updated: 09/13/2013 09:01:23</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Health Status: EN - Query2 </span></a>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Health Workforce Migration</a></span>
-                      <span className="item-description pull-right">Last updated: 09/13/2013 09:01:23</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Test Health Care Resources: Test Health Care Resources</span></a>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Health Workforce Migration</a></span>
-                      <span className="item-description pull-right">Last updated: 01/11/2016 12:13:36</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Health Care Resources: Health care resources </span></a>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Health Status</a></span>
-                      <span className="item-description pull-right">Last updated: 01/29/2014 15:40:04</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Health Care Resources: Medical technology copy</span></a>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Health Status</a></span>
-                      <span className="item-description pull-right">Last updated: 01/29/2014 15:40:04</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Creditor Reporting System (CRS): tomi test</span></a>
-                      <p className="item-description">The objective of the CRS Aid Activity database is to provide a set
-                        of readily available basic data that enables analysis on where aid goes, what</p>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Social Protection</a></span>
-                      <span className="item-description pull-right">Last updated: 07/03/2015 14:05:47</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Country statistical profiles on line: CSP-TEST-OnLine</span></a>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Demographic References</a></span>
-                      <span className="item-description pull-right">Last updated: 10/16/2015 13:45:37</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Creditor Reporting System (CRS): tomi test copy</span></a>
-                      <p className="item-description">The objective of the CRS Aid Activity database is to provide a set
-                        of readily available basic data that enables analysis on where aid goes, what</p>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Demographic References</a></span>
-                      <span className="item-description pull-right">Last updated: 07/03/2015 14:05:47</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Quarterly National Accounts real: EN-public-QNA - 300000</span></a>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Social Protection</a></span>
-                      <span className="item-description pull-right">Last updated: 05/19/2016 12:28:23</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> Government at a Glance - 2011 edition: gov2011</span></a>
-                      <p className="item-description">Government at a Glance provides a dashboard of indicators
-                        assembled to help decision makers and the public analyse and benchmark governments across</p>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Pharmaceutical Market</a></span>
-                      <span className="item-description pull-right">Last updated: 11/07/2014 10:17:24</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> SDBS Structural Business Statistics: SDBS Structural Business Statitistics</span></a>
-                      <p className="item-description">The SSIS (Structural Statistics for Industry and Services)
-                        database, provides comparable information by detailed industrial sector (up to 4-digit</p>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Pharmaceutical Market</a></span>
-                      <span className="item-description pull-right">Last updated: 07/26/2011 14:30:48</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="item" colSpan="3">
-                      <a href="dataset.html"><span className="item-title"><i className="icon-ddp-publication"></i> SDBS Structural Business Statistics: All Businesses (SSIS) </span></a>
-                      <p className="item-description">The SSIS (Structural Statistics for Industry and Services)
-                        database, provides comparable information by detailed industrial sector (up to 4-digit</p>
-                      <span className="item-description pull-left"><span className="item-type">dataset</span> in <a
-                        href="">Health expenditure and financing</a></span>
-                      <span className="item-description pull-right">Last updated: 07/26/2011 14:30:48</span>
-                    </td>
-                  </tr>
+                  <tbody id="" style={{ display: 'table-row-group', opacity: '1' }}>
+                  {comments.map(comm => (
+                    <tr key={comm.id}>
+                      <td className="item" colSpan="3">
+                        <a href="dataset.html">
+                          <span className="item-title">
+                            <i className="icon-ddp-publication"/>
+                            {comm.name}
+                          </span>
+                        </a>
+                        <p className="item-description">
+                          {comm.body}
+                        </p>
+                        <span className="item-description pull-left">
+                          <span className="item-type">
+                            {comm.email}
+                          </span>
+                          {' in '}
+                          <a href="">
+                            Health Status
+                          </a>
+                        </span>
+                        <span className="item-description pull-right">
+                          Last updated: 09/13/2013 09:01:23
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
                   </tbody>
                 </table>
 
@@ -607,4 +545,6 @@ class IndexTopic extends Component {
   }
 }
 
-export default IndexTopic;
+export default connect(state => ({
+  comments: state.comments
+}), actions)(IndexTopic);
