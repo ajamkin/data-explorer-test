@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "bootstrap-rtl": "^3.3.4",
+    "dom-helpers": "^3.2.0",
     "history": "^3.2.1",
     "lodash": "^4.17.4",
     "react": "^15.4.2",

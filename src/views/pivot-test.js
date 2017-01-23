@@ -4,11 +4,15 @@ import _ from 'lodash';
 import * as actions from '../actions';
 import { MultiGrid, AutoSizer, InfiniteLoader, Grid, Table, Column, ScrollSync } from 'react-virtualized';
 import 'react-virtualized/styles.css';
-
+import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 
 const list = [];
+
 const remoteRowCount = 1000;
-const columns = _.range(15).map(idx => ({
+const columnWidth = 200;
+const rowHeight = 40;
+
+const columns = _.range(50).map(idx => ({
   label: `col_${idx}`,
   dataKey: `dk_col_${idx}`
 }));
@@ -43,6 +47,30 @@ function rowGetter({ index }) {
 console.log(columns);
 
 class PivotTest extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this._renderHeaderCell = this._renderHeaderCell.bind(this);
+    this._renderLeftHeaderCell = this._renderLeftHeaderCell.bind(this);
+  }
+
+  _renderHeaderCell(opts) {
+    console.log('_renderHeaderCell', opts);
+    const { columnIndex, key, rowIndex, style } = opts;
+    if (columnIndex < 1) {
+      return
+    }
+    return this._renderLeftHeaderCell({ columnIndex, key, rowIndex, style })
+  }
+
+  _renderLeftHeaderCell({ columnIndex, key, rowIndex, style }) {
+    return (
+      <div key={key} className="" style={style}>
+        {`COLM${columnIndex}`}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="ddp-root">
@@ -55,36 +83,62 @@ class PivotTest extends React.Component {
                 </div>
               </div>
             </div>
-            <InfiniteLoader
-              isRowLoaded={isRowLoaded}
-              loadMoreRows={loadMoreRows}
-              rowCount={remoteRowCount}
-            >
-              {({ onRowsRendered, registerChild }) => (
-                <AutoSizer disableHeight>
-                  {({ width }) => (
-                    <Table
-                      ref={registerChild}
-                      onRowsRendered={onRowsRendered}
-                      rowHeight={23}
-                      height={250}
-                      rowCount={remoteRowCount}
-                      rowGetter={rowGetter}
-                      width={width}
-                    >
-                      {columns.map(col => (
-                        <Column
-                          key={col.dataKey}
-                          width={200}
-                          {...col}
-                        />
-                      ))}
-                    </Table>
-                  )}
-                </AutoSizer>
-              )
-              }
-            </InfiniteLoader>
+            <ScrollSync>
+              {({ clientHeight, clientWidth, onScroll, scrollHeight, scrollLeft, scrollTop, scrollWidth }) => (
+                <InfiniteLoader
+                  isRowLoaded={isRowLoaded}
+                  loadMoreRows={loadMoreRows}
+                  rowCount={remoteRowCount}
+                >
+                  {({ onRowsRendered, registerChild }) => (
+                    <div className="GridColumn">
+                      <AutoSizer disableHeight>
+                        {({ width }) => (
+                          <div>
+                            <div style={{
+                              backgroundColor: '#f9f9f9',
+                              height: rowHeight,
+                              width: width - scrollbarSize()
+                            }}>
+                              <Grid
+                                className='HeaderGrid'
+                                columnWidth={columnWidth}
+                                columnCount={_.size(columns)}
+                                height={rowHeight}
+                                cellRenderer={this._renderHeaderCell}
+                                rowHeight={rowHeight}
+                                rowCount={1}
+                                scrollLeft={scrollLeft}
+                                width={width - scrollbarSize()}
+                              />
+                            </div>
+                            <Table
+                              ref={registerChild}
+                              onRowsRendered={onRowsRendered}
+                              rowHeight={rowHeight}
+                              height={250}
+                              onScroll={onScroll}
+                              rowCount={remoteRowCount}
+                              rowGetter={rowGetter}
+                              width={width}
+                            >
+                              {columns.map(col => (
+                                <Column
+                                  key={col.dataKey}
+                                  width={columnWidth}
+                                  {...col}
+                                />
+                              ))}
+                            </Table>
+                          </div>
+                        )}
+                      </AutoSizer>
+                    </div>
+                  )
+                  }
+                </InfiniteLoader>
+              )}
+            </ScrollSync>
             <br/>
             <br/>
           </div>
