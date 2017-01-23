@@ -12,7 +12,7 @@ const remoteRowCount = 1000;
 const columnWidth = 200;
 const rowHeight = 40;
 
-const columns = _.range(50).map(idx => ({
+const columns = _.range(5).map(idx => ({
   label: `col_${idx}`,
   dataKey: `dk_col_${idx}`
 }));
@@ -85,33 +85,33 @@ class PivotTest extends React.Component {
             </div>
             <ScrollSync>
               {({ clientHeight, clientWidth, onScroll, scrollHeight, scrollLeft, scrollTop, scrollWidth }) => (
-                <InfiniteLoader
-                  isRowLoaded={isRowLoaded}
-                  loadMoreRows={loadMoreRows}
-                  rowCount={remoteRowCount}
-                >
-                  {({ onRowsRendered, registerChild }) => (
-                    <div className="GridColumn">
-                      <AutoSizer disableHeight>
-                        {({ width }) => (
-                          <div>
-                            <div style={{
-                              backgroundColor: '#f9f9f9',
-                              height: rowHeight,
-                              width: width - scrollbarSize()
-                            }}>
-                              <Grid
-                                className='HeaderGrid'
-                                columnWidth={columnWidth}
-                                columnCount={_.size(columns)}
-                                height={rowHeight}
-                                cellRenderer={this._renderHeaderCell}
-                                rowHeight={rowHeight}
-                                rowCount={1}
-                                scrollLeft={scrollLeft}
-                                width={width - scrollbarSize()}
-                              />
-                            </div>
+                <div className="GridColumn">
+                  <AutoSizer disableHeight>
+                    {({ width }) => (
+                      <div>
+                        <div style={{
+                          backgroundColor: '#f9f9f9',
+                          height: rowHeight,
+                          width: width - scrollbarSize()
+                        }}>
+                          <Grid
+                            className='HeaderGrid'
+                            columnWidth={columnWidth}
+                            columnCount={_.size(columns)}
+                            height={rowHeight}
+                            cellRenderer={this._renderHeaderCell}
+                            rowHeight={rowHeight}
+                            rowCount={1}
+                            scrollLeft={scrollLeft}
+                            width={width - scrollbarSize()}
+                          />
+                        </div>
+                        <InfiniteLoader
+                          isRowLoaded={isRowLoaded}
+                          loadMoreRows={loadMoreRows}
+                          rowCount={remoteRowCount}
+                        >
+                          {({ onRowsRendered, registerChild }) => (
                             <Table
                               ref={registerChild}
                               onRowsRendered={onRowsRendered}
@@ -130,13 +130,12 @@ class PivotTest extends React.Component {
                                 />
                               ))}
                             </Table>
-                          </div>
-                        )}
-                      </AutoSizer>
-                    </div>
-                  )
-                  }
-                </InfiniteLoader>
+                          )}
+                        </InfiniteLoader>
+                      </div>
+                    )}
+                  </AutoSizer>
+                </div>
               )}
             </ScrollSync>
             <br/>
