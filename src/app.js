@@ -11,6 +11,7 @@ import thunkMiddleware from 'redux-thunk';
 import IndexTopic from './views/index-topic';
 import LandingPage from './views/landing';
 import NoMatch from './views/nomatch';
+import PivotTest from './views/pivot-test';
 import Header from './views/header';
 import Footer from './views/footer';
 import Delayed from './views/delayed';
@@ -23,6 +24,7 @@ import './assets/css/oecd-headers-footers.css'
 import './assets/css/main.css'
 import './assets/css/custom.oecd.css'
 import './assets/css/style.css'
+import './assets/style.css'
 
 const App = ({ children }) => (
   <div>
@@ -67,6 +69,7 @@ render(
       <Route path="/" component={App}>
         <IndexRoute component={LandingPage}/>
         <Route path="topic" component={IndexTopic}/>
+        <Route path="pivot" component={PivotTest}/>
         <Route path="*" component={NoMatch}/>
       </Route>
     </Router>

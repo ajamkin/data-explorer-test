@@ -64,7 +64,6 @@ class IndexTopic extends Component {
         </header>
 
         <main role="main">
-
           <div className="container">
             <div className="notifications panel panel-info">
               <div className="panel-heading">
