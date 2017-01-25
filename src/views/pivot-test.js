@@ -20,9 +20,9 @@ export default class GridExample extends Component {
       lastLoadedRange: {}
     };
 
-    this._renderBodyCell = this._renderBodyCell.bind(this)
-    this._renderHeaderCell = this._renderHeaderCell.bind(this)
-    this._renderLeftSideCell = this._renderLeftSideCell.bind(this)
+    this._renderBodyCell = this._renderBodyCell.bind(this);
+    this._renderTopHeaderCell = this._renderTopHeaderCell.bind(this);
+    this._renderLeftHeaderCell = this._renderLeftHeaderCell.bind(this);
     this._onSectionRendered = this._onSectionRendered.bind(this);
     this._isRowLoaded = this._isRowLoaded.bind(this);
     this._loadMoreRows = this._loadMoreRows.bind(this);
@@ -37,71 +37,85 @@ export default class GridExample extends Component {
       overscanRowCount,
       rowHeight,
       rowCount
-    } = this.state
+    } = this.state;
 
     return (
       <div className="ddp-root">
         <main role="main">
           <div className="container">
             <div className="alert alert-warning" role="alert">
-              <strong>Total length:</strong>
+              <strong>Total items:</strong>
               &nbsp;{this.state.rowCount}
 
-              <strong style={{marginLeft:'20px'}}>Length in state:</strong>
+              <strong style={{ marginLeft: '20px' }}>Items in state:</strong>
               &nbsp;{this.state.data.length}
 
-              <strong style={{marginLeft:'20px'}}>Last loaded range:</strong>
+              <strong style={{ marginLeft: '20px' }}>Last loaded range:</strong>
               &nbsp;{JSON.stringify(this.state.lastLoadedRange)}
             </div>
             <ScrollSync>
               {({ clientHeight, clientWidth, onScroll, scrollHeight, scrollLeft, scrollTop, scrollWidth }) => {
                 return (
                   <div className='GridRow'>
-                    <div
-                      className='LeftSideGridContainer'
-                      style={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        color: '#000',
-                        backgroundColor: `#aaa`
-                      }}
-                    >
-                      <Grid
-                        cellRenderer={this._renderLeftHeaderCell}
-                        className='HeaderGrid'
-                        width={columnWidth}
-                        height={rowHeight}
-                        rowHeight={rowHeight}
-                        columnWidth={columnWidth}
-                        rowCount={1}
-                        columnCount={1}
-                      />
-                    </div>
-                    <div
-                      className='LeftSideGridContainer'
-                      style={{
-                        position: 'absolute',
-                        left: 0,
-                        top: rowHeight,
-                        color: '#000',
-                        borderRight: '1px solid #000',
-                        backgroundColor: `#fff`
-                      }}
-                    >
-                      <Grid
-                        overscanColumnCount={overscanColumnCount}
-                        overscanRowCount={overscanRowCount}
-                        cellRenderer={this._renderLeftSideCell}
-                        columnWidth={columnWidth}
-                        columnCount={1}
-                        className='LeftSideGrid'
-                        height={height - scrollbarSize()}
-                        rowHeight={rowHeight}
-                        rowCount={rowCount}
-                        scrollTop={scrollTop}
-                        width={columnWidth}
-                      />
+                    <div className="GridColumn" style={{ flex: '0 0 150px' }}>
+                      <div className='LeftSideGridContainer'
+                           style={{
+                             position: 'absolute',
+                             left: 0,
+                             top: rowHeight * 2,
+                             color: '#000',
+                             borderRight: '1px solid #aaa',
+                             backgroundColor: `#fff`
+                           }}
+                      >
+                        <div style={{ display: 'flex', flexDirection: 'row', maxWidth: '150px', overflowX: 'scroll' }}>
+                          <div>
+                            <Grid
+                              overscanColumnCount={overscanColumnCount}
+                              overscanRowCount={overscanRowCount}
+                              cellRenderer={this._renderLeftHeaderCell}
+                              columnWidth={columnWidth}
+                              columnCount={1}
+                              className='LeftSideGrid'
+                              height={height - scrollbarSize()}
+                              rowHeight={rowHeight * 2}
+                              rowCount={500}
+                              scrollTop={scrollTop}
+                              width={columnWidth}
+                            />
+                          </div>
+                          <div>
+                            <Grid
+                              overscanColumnCount={overscanColumnCount}
+                              overscanRowCount={overscanRowCount}
+                              cellRenderer={this._renderLeftHeaderCell}
+                              columnWidth={columnWidth}
+                              columnCount={1}
+                              className='LeftSideGrid'
+                              height={height - scrollbarSize()}
+                              rowHeight={rowHeight}
+                              rowCount={rowCount}
+                              scrollTop={scrollTop}
+                              width={columnWidth}
+                            />
+                          </div>
+                          <div>
+                            <Grid
+                              overscanColumnCount={overscanColumnCount}
+                              overscanRowCount={overscanRowCount}
+                              cellRenderer={this._renderLeftHeaderCell}
+                              columnWidth={columnWidth}
+                              columnCount={1}
+                              className='LeftSideGrid'
+                              height={height - scrollbarSize()}
+                              rowHeight={rowHeight}
+                              rowCount={rowCount}
+                              scrollTop={scrollTop}
+                              width={columnWidth}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div className='GridColumn'>
                       <AutoSizer disableHeight>
@@ -110,17 +124,29 @@ export default class GridExample extends Component {
                             <div style={{
                               backgroundColor: `#fff`,
                               color: '#000',
-                              borderBottom: '1px solid #000',
-                              height: rowHeight,
-                              width: width - scrollbarSize()
+                              borderBottom: '2px solid #aaa',
+                              height: rowHeight * 2,
+                              width: width - scrollbarSize(),
                             }}>
+                              <Grid
+                                className='HeaderGrid'
+                                columnWidth={columnWidth * 2}
+                                columnCount={columnCount / 2}
+                                height={rowHeight}
+                                overscanColumnCount={overscanColumnCount}
+                                cellRenderer={this._renderTopHeaderCell}
+                                rowHeight={rowHeight}
+                                rowCount={1}
+                                scrollLeft={scrollLeft}
+                                width={width - scrollbarSize()}
+                              />
                               <Grid
                                 className='HeaderGrid'
                                 columnWidth={columnWidth}
                                 columnCount={columnCount}
                                 height={rowHeight}
                                 overscanColumnCount={overscanColumnCount}
-                                cellRenderer={this._renderHeaderCell}
+                                cellRenderer={this._renderTopHeaderCell}
                                 rowHeight={rowHeight}
                                 rowCount={1}
                                 scrollLeft={scrollLeft}
@@ -181,7 +207,6 @@ export default class GridExample extends Component {
   }
 
   _loadMoreRows({ startIndex, stopIndex }) {
-    console.log('_loadMoreRows', startIndex, stopIndex);
     const { columnCount, data } = this.state;
     return new Promise(res => {
       const newData = [...data];
@@ -212,10 +237,6 @@ export default class GridExample extends Component {
   }
 
   _renderBodyCell({ columnIndex, key, rowIndex, style }) {
-    if (columnIndex < 1) {
-      return
-    }
-
     const rowClass = rowIndex % 2 === 0 ? 'evenRow' : 'oddRow';
     const classNames = cn(rowClass, 'cell');
 
@@ -234,39 +255,28 @@ export default class GridExample extends Component {
     );
   }
 
-  _renderHeaderCell({ columnIndex, key, rowIndex, style }) {
-    if (columnIndex < 1) {
-      return
-    }
-
-    return this._renderLeftHeaderCell({ columnIndex, key, rowIndex, style })
+  _renderTopHeaderCell({ columnIndex, key, rowIndex, style }) {
+    style.border = '1px solid #eee';
+    return (
+      <div
+        className='cell'
+        key={key}
+        style={style}
+      >
+        <strong>{`COL_${columnIndex}`}</strong>
+      </div>
+    );
   }
 
   _renderLeftHeaderCell({ columnIndex, key, rowIndex, style }) {
+    style.border = '1px solid #eee';
     return (
       <div
-        className='headerCell'
+        className='cell'
         key={key}
         style={style}
       >
-        {`COL_${columnIndex}`}
-      </div>
-    )
-  }
-
-  _renderLeftSideCell({ columnIndex, key, rowIndex, style }) {
-    const rowClass = rowIndex % 2 === 0
-      ? columnIndex % 2 === 0 ? 'evenRow' : 'oddRow'
-      : columnIndex % 2 !== 0 ? 'evenRow' : 'oddRow'
-    const classNames = cn(rowClass, 'cell')
-
-    return (
-      <div
-        className={classNames}
-        key={key}
-        style={style}
-      >
-        {`R${rowIndex}, C${columnIndex}`}
+        <strong>{`ROW_${rowIndex}`}</strong>
       </div>
     )
   }
