@@ -32,7 +32,7 @@
 }
 
 .oddRow {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: #f6f6f6;
 }
 
 .cell,
@@ -51,4 +51,11 @@
 .headerCell,
 .leftCell {
     font-weight: bold;
+}
+
+.cell:hover {
+    background-color: rgba(0, 0, 0, .2);
+}
+.cell-hovered {
+    background-color: rgba(0, 0, 0, .1);
 }

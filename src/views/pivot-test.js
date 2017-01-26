@@ -159,6 +159,15 @@ export default class GridExample extends Component {
                               />
                             </div>
                             <div
+                              onMouseLeave={()=>{
+                                this.setState({
+                                  hoveredColumnIndex: null,
+                                  hoveredRowIndex: null
+                                });
+                                if(this.dataGridRef) {
+                                  this.dataGridRef.forceUpdate();
+                                }
+                              }}
                               style={{
                                 backgroundColor: `#fff`,
                                 color: '#000',
@@ -170,12 +179,16 @@ export default class GridExample extends Component {
                                 isRowLoaded={this._isRowLoaded}
                                 loadMoreRows={this._loadMoreRows}
                                 rowCount={this.state.rowCount}
+                                ref='InfiniteLoader'
                               >
                                 {({ onRowsRendered, registerChild }) => {
                                   this._onRowRendered = onRowsRendered;
                                   return (
                                     <Grid
-                                      ref={registerChild}
+                                      ref={(rf) => {
+                                        this.dataGridRef = rf;
+                                        registerChild(rf);
+                                      }}
                                       onSectionRendered={this._onSectionRendered}
                                       className='BodyGrid'
                                       columnWidth={columnWidth}
@@ -244,9 +257,6 @@ export default class GridExample extends Component {
   }
 
   _renderBodyCell({ columnIndex, key, rowIndex, style }) {
-    const rowClass = rowIndex % 2 === 0 ? 'evenRow' : 'oddRow';
-    const classNames = cn(rowClass, 'cell');
-
     let cellData = this.state.data[rowIndex];
 
     if (!cellData) {
@@ -255,8 +265,28 @@ export default class GridExample extends Component {
       cellData = cellData[`R${rowIndex}_C${columnIndex}`];
     }
 
+    const isHovered = columnIndex === this.state.hoveredColumnIndex || rowIndex === this.state.hoveredRowIndex;
+    const rowClass = rowIndex % 2 === 0 ? 'evenRow' : 'oddRow';
+    const classNames = cn(rowClass, 'cell', {
+      'cell-hovered' : isHovered
+    });
+
+
     return (
-      <div style={style} key={key} className={classNames}>
+      <div
+        style={style}
+        key={key}
+        className={classNames}
+        onMouseOver={() => {
+          this.setState({
+            hoveredColumnIndex: columnIndex,
+            hoveredRowIndex: rowIndex
+          });
+          if(this.dataGridRef) {
+            this.dataGridRef.forceUpdate();
+          }
+        }}
+      >
         {cellData}
       </div>
     );
