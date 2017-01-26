@@ -80,8 +80,9 @@ export default class GridExample extends Component {
                               height={height - scrollbarSize()}
                               rowHeight={rowHeight * 2}
                               rowCount={500}
-                              scrollTop={scrollTop}
                               width={columnWidth}
+                              scrollTop={scrollTop}
+                              scrollLeft={0}
                             />
                           </div>
                           <div>
@@ -95,8 +96,9 @@ export default class GridExample extends Component {
                               height={height - scrollbarSize()}
                               rowHeight={rowHeight}
                               rowCount={rowCount}
-                              scrollTop={scrollTop}
                               width={columnWidth}
+                              scrollTop={scrollTop}
+                              scrollLeft={0}
                             />
                           </div>
                           <div>
@@ -110,8 +112,9 @@ export default class GridExample extends Component {
                               height={height - scrollbarSize()}
                               rowHeight={rowHeight}
                               rowCount={rowCount}
-                              scrollTop={scrollTop}
                               width={columnWidth}
+                              scrollTop={scrollTop}
+                              scrollLeft={0}
                             />
                           </div>
                         </div>
@@ -137,8 +140,9 @@ export default class GridExample extends Component {
                                 cellRenderer={this._renderTopHeaderCell}
                                 rowHeight={rowHeight}
                                 rowCount={1}
-                                scrollLeft={scrollLeft}
                                 width={width - scrollbarSize()}
+                                scrollTop={0}
+                                scrollLeft={scrollLeft}
                               />
                               <Grid
                                 className='HeaderGrid'
@@ -149,8 +153,9 @@ export default class GridExample extends Component {
                                 cellRenderer={this._renderTopHeaderCell}
                                 rowHeight={rowHeight}
                                 rowCount={1}
-                                scrollLeft={scrollLeft}
                                 width={width - scrollbarSize()}
+                                scrollTop={0}
+                                scrollLeft={scrollLeft}
                               />
                             </div>
                             <div
@@ -181,6 +186,8 @@ export default class GridExample extends Component {
                                       rowHeight={rowHeight}
                                       rowCount={rowCount}
                                       width={width}
+                                      scrollTop={0}
+                                      scrollLeft={0}
                                     />
                                   )
                                 }}
